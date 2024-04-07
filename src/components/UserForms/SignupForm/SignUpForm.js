@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-const SignupForm = () => {
+const SignupForm = ({ onRegisterSuccess }) => {
 
   const [formData, setFormData] = useState({
-    username: '',
+    firstname: '',
     lastname: '',
     email: '',
     password: ''
@@ -12,15 +12,22 @@ const SignupForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Send formData to backend API for signup process
-      const response = await fetch('/api/signup', {
+      const response = await fetch('http://localhost:3001/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
       });
-      // Handle response accordingly
+  
+      if (response.ok) {
+        // If registration is successful
+        onRegisterSuccess();  // Close the signup modal
+        console.log('Registration successful');
+      } else {
+        // If there is an error with the registration
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
     } catch (error) {
       console.error('Error during signup:', error);
     }
@@ -39,7 +46,7 @@ const SignupForm = () => {
       <div className='div-loginForm-signupForm'>
         <h1>Register</h1>
         <div className='input-box-div'>
-          <input className="input-box-modal" type="text" placeholder="Username" name="username" value={formData.username} onChange={handleChange} />
+          <input className="input-box-modal" type="text" placeholder="firstname" name="firstname" value={formData.firstname} onChange={handleChange} />
           <input className="input-box-modal" type="text" placeholder="Lastname" name="lastname" value={formData.lastname} onChange={handleChange} />
         </div>
         <input className="input-box-modal" type="text" placeholder="Email" name="email" value={formData.email} onChange={handleChange} />

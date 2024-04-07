@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
@@ -6,11 +6,29 @@ import logo from '../../images/Ezy_Banking_Logo.png'
 import SignupForm from './../../components/UserForms/SignupForm/SignUpForm';
 import LoginForm from './../../components/UserForms/LoginForm/LoginForm'; 
 import Modal from './../../components/UserForms/Modal/Modal'; 
+import { jwtDecode } from 'jwt-decode';
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decoded = jwtDecode(token);
+      setName(decoded.name);
+    }
+  }, []);
+
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false);
+  };
+
+  const handleRegisterSuccess = () => {
+    setShowSignupModal(false);
+  }
 
   const handleMouseEnter = () => {
     setShowDropdown(true);
@@ -42,9 +60,16 @@ const Navbar = () => {
         <img src={logo} alt="ezybanking logo" className="logo-img" />
       </Link>
 
-      <Link to="/SomethingWentWrong" className="somethingwentwrong-title">
-        <h1>Crash</h1>
-      </Link>
+
+      {name ? (
+        <div className="welcome-message">
+          Welcome, {name}
+        </div>
+      ) : (
+        <Link to="/SomethingWentWrong" className="somethingwentwrong-title">
+          <h1>Crash</h1>
+        </Link>
+      )}
 
       <div
         className="dropdown-container"
@@ -61,12 +86,12 @@ const Navbar = () => {
       </div>
 
       <Modal isOpen={showSignupModal} onClose={handleCloseSignupModal}>
-        <SignupForm />
+        <SignupForm onRegisterSuccess={handleRegisterSuccess} />
       </Modal>
 
       <Modal isOpen={showLoginModal} onClose={handleCloseLoginModal}>
-        <LoginForm />
-      </Modal>
+        <LoginForm onLoginSuccess={handleLoginSuccess} />
+      </Modal>  
     </nav>
   );
 };
