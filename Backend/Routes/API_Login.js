@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const { getConnection, sql } = require('../db');
 const router = express.Router();
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET;
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
 
                 jwt.sign(
                     payload,
-                    JWT_SECRET,
+                    secret,
                     { expiresIn: 3600 },
                     (err, token) => {
                         if (err) throw err;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
@@ -14,21 +14,23 @@ const Navbar = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [name, setName] = useState('');
 
-  useEffect(() => {
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false);
     const token = localStorage.getItem('token');
     if (token) {
       const decoded = jwtDecode(token);
       setName(decoded.name);
     }
-  }, []);
-
-  const handleLoginSuccess = () => {
-    setShowLoginModal(false);
   };
 
   const handleRegisterSuccess = () => {
     setShowSignupModal(false);
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setName('');
+  };
 
   const handleMouseEnter = () => {
     setShowDropdown(true);
@@ -57,21 +59,11 @@ const Navbar = () => {
   return (
     <nav className="navigation">
       <Link to="/" className="title-container">
-        <img src={logo} alt="ezybanking logo" className="logo-img" />
+        <img src={logo} alt="Ezy Banking logo" className="logo-img" />
       </Link>
 
-
       {name ? (
-        <div className="welcome-message">
-          Welcome, {name}
-        </div>
-      ) : (
-        <Link to="/SomethingWentWrong" className="somethingwentwrong-title">
-          <h1>Crash</h1>
-        </Link>
-      )}
-
-      <div
+        <div
         className="dropdown-container"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -79,11 +71,26 @@ const Navbar = () => {
         <FontAwesomeIcon icon={faCircleUser} className="faCircleUserDropDown" />
         {showDropdown && (
           <div className="dropdown-content">
-            <Link to="#" onClick={handleLoginClick}>Login</Link>
-            <Link to="#" onClick={handleSignupClick}>Sign Up</Link>
+            <Link to="/Account">Account</Link>
+            <Link to="#" onClick={handleLogout}>Logout</Link>
           </div>
         )}
       </div>
+      ) : (
+        <div
+          className="dropdown-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <FontAwesomeIcon icon={faCircleUser} className="faCircleUserDropDown" />
+          {showDropdown && (
+            <div className="dropdown-content">
+              <Link to="#" onClick={handleLoginClick}>Login</Link>
+              <Link to="#" onClick={handleSignupClick}>Sign Up</Link>
+            </div>
+          )}
+        </div>
+      )}
 
       <Modal isOpen={showSignupModal} onClose={handleCloseSignupModal}>
         <SignupForm onRegisterSuccess={handleRegisterSuccess} />
@@ -91,7 +98,7 @@ const Navbar = () => {
 
       <Modal isOpen={showLoginModal} onClose={handleCloseLoginModal}>
         <LoginForm onLoginSuccess={handleLoginSuccess} />
-      </Modal>  
+      </Modal>
     </nav>
   );
 };

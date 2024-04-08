@@ -1,6 +1,6 @@
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
-import Accounts from './pages/Accounts';
+import Account from './pages/Account';
 import Transactions from './pages/Transactions';
 import Signup from './pages/Signup';
 import SomethingWentWrong from './pages/SomethingWentWrong';
@@ -14,7 +14,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/Signup" element={<Signup />} />
-                <Route path="/accounts" element={<Accounts />} />
+                <Route path="/Account" element={<Account />} />
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/SomethingWentWrong" element={<SomethingWentWrong />} />
             </Routes>
