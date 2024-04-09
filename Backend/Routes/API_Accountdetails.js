@@ -6,7 +6,7 @@ const router = express.Router();
 // Ensure you have your secret key that was used to sign the JWTs
 const secret = process.env.JWT_SECRET;
 
-router.get('/account/balance', async (req, res) => {
+router.get('/account/accountdetails', async (req, res) => {
   try {
     if (!req.headers.authorization) {
       return res.status(401).json({ error: 'No authorization token provided' });
@@ -24,14 +24,16 @@ router.get('/account/balance', async (req, res) => {
     const pool = await getConnection();
     const result = await pool.request()
       .input('UserID', sql.Int, userId)
-      .query(`SELECT Balance FROM EZBankingDB_Accounts WHERE UserID = @UserID`);
+      .query(`SELECT Balance, RegistrationNumber, AccountNumber FROM EZBankingDB_Accounts WHERE UserID = @UserID`);
 
     if (result.recordset.length === 0) {
       return res.status(404).json({ error: 'User not found or no account balance available' });
     }
 
     const balance = result.recordset[0].Balance;
-    res.json({ balance });
+    const registrationNumber = result.recordset[0].RegistrationNumber;
+    const accountNumber = result.recordset[0].AccountNumber;
+    res.json({ balance, registrationNumber, accountNumber});
   } catch (error) {
     console.error('Error fetching balance:', error);
 

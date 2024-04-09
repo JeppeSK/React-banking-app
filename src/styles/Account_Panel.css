@@ -1,0 +1,11 @@
+.Account_Panel_Navigation {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #F2F2F2;
+    padding: 10px 10px;
+    align-items: center;
+    position: fixed;
+    top: 125px; 
+    bottom: 0;
+    width: 25vh;
+}

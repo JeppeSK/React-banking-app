@@ -1,5 +1,41 @@
+.Account_information_div {
+    margin-top: 125px;
+    margin-left: 25vh;
+    padding: 10px;
+}
+
 .Creditcard_account_information {
-    display: block;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     margin: 0 auto;
     width: 500px;
+    position: relative;
+}
+
+.Creditcard_image {
+    margin: 0 auto;
+    width: 500px;
+}
+
+.Activity_Panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.Creditcard_datails_serialNumber {
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 20px;
+}
+
+.Creditcard_datails_expiryDate {
+    position: absolute;
+    bottom: 86px;
+    right: 380px;
+    color: white;
+    font-size: 11px;
 }
