@@ -3,7 +3,7 @@
 The purpose of this project is to develope a better understanding of React - The banking appplication currently allows users to create an account, login and treverse their account. 
 Currently the user can only connect a creditcard to their account and see their balacne. In future iterations the goal is to showcase the purchases made with their account, with a detailed description of the items bought.
 
-(This Project simulates the usage of creditcards and bank accounts if downloaded and used i HIGHLY RECOMMEND not using your real creditcard details when using the application)
+(This Project simulates the usage of creditcards and bank accounts)
 
 # Getting Started with Create React App
 
